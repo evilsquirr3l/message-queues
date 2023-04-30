@@ -25,6 +25,7 @@ public class FileUploader
         catch (Exception e)
         {
             Console.WriteLine($"Error message:'{e.Message}' when writing an object");
+            throw;
         }
     }
 }
