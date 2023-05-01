@@ -1,3 +1,10 @@
-﻿// See https://aka.ms/new-console-template for more information
+﻿using MainProcessing;
 
-Console.WriteLine("Hello, World!");
+var filePath = "output.txt";
+var messages = await MessageReader.ReceiveMessageAsync();
+
+foreach (var message in messages)
+{
+    Console.WriteLine($"Url: {message}");
+    FileWriter.WriteStringToFile(filePath, message);
+}
