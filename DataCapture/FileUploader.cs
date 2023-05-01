@@ -8,7 +8,7 @@ public class FileUploader
     private const string BucketName = "sample-bucket";
     private const string ServiceUrl = "http://localhost:4566";
 
-    public static async Task UploadFileToS3Async(string filePath)
+    public static async Task<string> UploadFileToS3Async(string filePath)
     {
         using var s3Client = new AmazonS3Client(new AmazonS3Config
         {
@@ -21,6 +21,8 @@ public class FileUploader
             var fileTransferUtility = new TransferUtility(s3Client);
             
             await fileTransferUtility.UploadAsync(filePath, BucketName);
+
+            return $"{ServiceUrl}/{BucketName}/{Path.GetFileName(filePath)}";
         }
         catch (Exception e)
         {
