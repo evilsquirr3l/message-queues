@@ -63,4 +63,8 @@ localstack start
 aws --endpoint-url=http://localhost:4566 s3api create-bucket --bucket sample-bucket
 aws --endpoint-url=http://localhost:4566 sqs create-queue --queue-name sample-queue
 ```
-   
+
+## Diagram:
+![messageQueues.drawio.png](messageQueues.drawio.png)
+
+[Draw.io link](https://drive.google.com/file/d/16FtTgVJu4HGRkAPoJtk1uxrl4DzIzpxP/view?usp=sharing)
