@@ -6,18 +6,19 @@ namespace DataCapture;
 
 public class FileMessageSender
 {
-    private const string QueueName = "sample-queue";
-    private const string QueueUrl = $"http://localhost:4566/000000000000/{QueueName}";
-    
+    private const string QueueUrl = $"http://localhost:4566/000000000000/sample-queue";
+
     public static async Task SendMessageAsync(string fileName)
     {
-        var sqsClient = new AmazonSQSClient("000000000000", "test", "test",
-            new AmazonSQSConfig()
+        using var sqsClient = new AmazonSQSClient(new AmazonSQSConfig()
         {
             ServiceURL = QueueUrl,
-            RegionEndpoint = RegionEndpoint.USEast1
+            RegionEndpoint = RegionEndpoint.USEast1,
+            ProxyHost = "localhost",
+            ProxyPort = 4566,
+            UseHttp = true
         });
-        
+
         try
         {
             var sendMessageRequest = new SendMessageRequest
@@ -26,9 +27,7 @@ public class FileMessageSender
                 MessageBody = fileName
             };
 
-            var response = await sqsClient.SendMessageAsync(sendMessageRequest);
-
-            Console.WriteLine($"Sent message with ID: {response.MessageId}");
+            await sqsClient.SendMessageAsync(sendMessageRequest);
         }
         catch (Exception e)
         {
